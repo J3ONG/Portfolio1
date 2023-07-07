@@ -32,28 +32,26 @@ public class WatchlistController {
     final WatchlistMapper wlMapper;
     // final BigInteger profileno = BigInteger.valueOf(93);
     final HttpSession httpSession;
-    
+
     @PostMapping(value = "/deletebatch.do")
     public String deleteBatchPOST(@RequestParam(name = "chk[]") List<BigInteger> chk) {
         try {
             // log.info(format,chk.toString());
             wlRepository.deleteAllById(chk);
             return "redirect:/watchlist/selectlist.do";
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";
         }
     }
 
     @PostMapping(value = "/delete.do")
-    public String deletePOST(@RequestParam(name = "viewno") BigInteger viewno){
+    public String deletePOST(@RequestParam(name = "viewno") BigInteger viewno) {
         try {
             // log.info(format,viewno.toString());
             wlRepository.deleteById(viewno);
             return "redirect:/watchlist/selectlist.do";
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";
         }
@@ -61,39 +59,39 @@ public class WatchlistController {
 
     // 127.0.0.1:9090/streampark/watchlist/selectlist.do
     @GetMapping(value = "/selectlist.do")
-    public String selectGET(Model model, @RequestParam(name = "type", defaultValue = "title", required = false) String type, @RequestParam(name = "text", required = false) String text, @ModelAttribute Search obj) {
-            try {
-                BigInteger profileno = (BigInteger) httpSession.getAttribute("profileno");
-                log.info(format, profileno);
-                log.info(format, type);
-                log.info(format, text);
-                if(type.equals("title") && text==null) {
-                    List<Watchlist> list = wlRepository.findByProfile_profilenoOrderByViewdateDesc(profileno);
-                    model.addAttribute("list", list);
-                }
-                
-               
-                else if(type.equals("title")) {
-                    List<Watchlist> list = wlRepository.findByVideolist_titleIgnoreCaseContainingOrderByViewdateDesc(text, profileno);
-                    model.addAttribute("list", list);
-                    
-                }
-                else if(type.equals("pd")) {
-                    List<Watchlist> list = wlRepository.findByVideolist_pdIgnoreCaseContainingOrderByViewdateDesc(text, profileno); 
-                    model.addAttribute("list", list);
-                }
-                else if(type.equals("chkage")) {
-                    List<Watchlist> list = wlRepository.findByVideolist_chkageIgnoreCaseContainingOrderByViewdateDesc(text, profileno);    
-                    model.addAttribute("list", list);
-                }
+    public String selectGET(Model model,
+            @RequestParam(name = "type", defaultValue = "title", required = false) String type,
+            @RequestParam(name = "text", required = false) String text, @ModelAttribute Search obj) {
+        try {
+            BigInteger profileno = (BigInteger) httpSession.getAttribute("profileno");
+            log.info(format, profileno);
+            log.info(format, type);
+            log.info(format, text);
+            if (type.equals("title") && text == null) {
+                List<Watchlist> list = wlRepository.findByProfile_profilenoOrderByViewdateDesc(profileno);
+                model.addAttribute("list", list);
+            }
 
-                // model.addAttribute("list", list);
-                
+            else if (type.equals("title")) {
+                List<Watchlist> list = wlRepository.findByVideolist_titleIgnoreCaseContainingOrderByViewdateDesc(text,
+                        profileno);
+                model.addAttribute("list", list);
 
-                model.addAttribute("profileno", profileno);
-                return "/jang/watchlist/selectlist";
-        }
-        catch(Exception e) {
+            } else if (type.equals("pd")) {
+                List<Watchlist> list = wlRepository.findByVideolist_pdIgnoreCaseContainingOrderByViewdateDesc(text,
+                        profileno);
+                model.addAttribute("list", list);
+            } else if (type.equals("chkage")) {
+                List<Watchlist> list = wlRepository.findByVideolist_chkageIgnoreCaseContainingOrderByViewdateDesc(text,
+                        profileno);
+                model.addAttribute("list", list);
+            }
+
+            // model.addAttribute("list", list);
+
+            model.addAttribute("profileno", profileno);
+            return "/jang/watchlist/selectlist";
+        } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";
         }
@@ -106,13 +104,11 @@ public class WatchlistController {
             // log.info(format, watchlist.getVideolist().getVideocode());
             wlRepository.save(watchlist);
             return "redirect:/watchlist/selectlist.do";
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";
         }
     }
-
 
     @GetMapping(value = "/insert.do")
     public String insertGET(Model model) {
@@ -121,11 +117,10 @@ public class WatchlistController {
             log.info(format, profileno);
             model.addAttribute("profileno", profileno);
             return "/jang/watchlist/insert";
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/insert.do";
         }
     }
-    
+
 }

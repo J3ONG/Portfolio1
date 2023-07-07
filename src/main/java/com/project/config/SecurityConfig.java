@@ -8,7 +8,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,7 +46,7 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/profile/profilelist.do", true)
                 .permitAll();
 
-        // 로그이웃 설정
+        // 로그아웃 설정
         http.logout()
                 .logoutUrl("/logout.do")
                 .logoutSuccessUrl("/member/main.do")

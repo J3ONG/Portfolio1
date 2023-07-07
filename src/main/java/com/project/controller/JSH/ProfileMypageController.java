@@ -45,56 +45,57 @@ public class ProfileMypageController {
     final ProfileimgRepository piRepository;
     final HttpSession httpSession;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
-    @Value("${default.profileimg}") String DEFAULTIMAGE;
+    @Value("${default.profileimg}")
+    String DEFAULTIMAGE;
     final ResourceLoader resourceLoader;
 
     // 마이페이지
-    @GetMapping(value ="/mypage.do")
-        public String mypageGET(HttpSession session){
-            session.getAttribute("profileno");
-            session.getAttribute("nickname");
-            session.getAttribute("id");
-            
-            String nickname = (String) session.getAttribute("nickname");
-            Profile profile = pRepository.findByNickname(nickname);
-            if(profile.getProfilepw() != null){
-                return "/JSH/mypage";
-            }
-            return "redirect:/mypage/updatenickname.do";
-        }
+    @GetMapping(value = "/mypage.do")
+    public String mypageGET(HttpSession session) {
+        session.getAttribute("profileno");
+        session.getAttribute("nickname");
+        session.getAttribute("id");
 
-    @PostMapping(value ="/mypage.do")    
-        public String mypagePOST(HttpSession session,
-        @RequestParam(value = "profilepw", required = false) String profilepw){
-            String nickname = (String) session.getAttribute("nickname");
-            Profile profile = pRepository.findByNickname(nickname);
-            session.setAttribute("profileno", profile.getProfileno());
-            session.setAttribute("nickname", nickname);
-            return "redirect:/mypage/updatenickname.do";
+        String nickname = (String) session.getAttribute("nickname");
+        Profile profile = pRepository.findByNickname(nickname);
+        if (profile.getProfilepw() != null) {
+            return "/JSH/mypage";
         }
-    
+        return "redirect:/mypage/updatenickname.do";
+    }
+
+    @PostMapping(value = "/mypage.do")
+    public String mypagePOST(HttpSession session,
+            @RequestParam(value = "profilepw", required = false) String profilepw) {
+        String nickname = (String) session.getAttribute("nickname");
+        Profile profile = pRepository.findByNickname(nickname);
+        session.setAttribute("profileno", profile.getProfileno());
+        session.setAttribute("nickname", nickname);
+        return "redirect:/mypage/updatenickname.do";
+    }
+
     // 닉네임 변경
     @GetMapping(value = "/updatenickname.do")
-        public String updatenicknameGET(HttpSession session, Model model){
-            String nickname = (String) session.getAttribute("nickname");
-            Profile profile = pRepository.findByNickname(nickname);
-            log.info("nickname => {}", nickname);
-            if (profile.getProfilepw() != null){
-                model.addAttribute("profilepwchk", true);
-            }
-            return "/JSH/profilenickname";
+    public String updatenicknameGET(HttpSession session, Model model) {
+        String nickname = (String) session.getAttribute("nickname");
+        Profile profile = pRepository.findByNickname(nickname);
+        log.info("nickname => {}", nickname);
+        if (profile.getProfilepw() != null) {
+            model.addAttribute("profilepwchk", true);
         }
+        return "/JSH/profilenickname";
+    }
 
     @PostMapping(value = "/updatenickname.do")
-        public String updatenicknamePOST(
+    public String updatenicknamePOST(
             @RequestParam("newnickname") String newnickname,
             HttpSession session) {
 
-            log.info("newnickname => {}", newnickname);
-            String nickname = (String) session.getAttribute("nickname");
-                
-            Profile profile = pRepository.findByNickname(nickname);
-            log.info("Profile => {}", profile.toString());
+        log.info("newnickname => {}", newnickname);
+        String nickname = (String) session.getAttribute("nickname");
+
+        Profile profile = pRepository.findByNickname(nickname);
+        log.info("Profile => {}", profile.toString());
         try {
             profile.setNickname(newnickname);
             pRepository.save(profile);
@@ -104,14 +105,13 @@ public class ProfileMypageController {
         }
         return "redirect:/mypage/updatenickname.do";
     }
-    
 
     // 프로필 암호 수정
     @GetMapping(value = "/updatepw.do")
-    public String updatepwGET(HttpSession session){
+    public String updatepwGET(HttpSession session) {
         String nickname = (String) session.getAttribute("nickname");
         Profile profile = pService.findByNickname(nickname);
-        if(profile.getProfilepw() != null && profile.getProfilepw().length() >= 1){
+        if (profile.getProfilepw() != null && profile.getProfilepw().length() >= 1) {
             return "/JSH/updatepw";
         }
         return "/JSH/profilecreatepw";
@@ -119,28 +119,26 @@ public class ProfileMypageController {
 
     @PostMapping(value = "/updatepw.do")
     public String updatepwPOST(HttpSession session,
-        @RequestParam("profilepw") String profilepw,
-        @ModelAttribute("newprofilepw") String newprofilepw){
+            @RequestParam("profilepw") String profilepw,
+            @ModelAttribute("newprofilepw") String newprofilepw) {
         String nickname = (String) session.getAttribute("nickname");
-        try{
+        try {
             Profile profile = pRepository.findByNickname(nickname);
             profile.setProfilepw(bcpe.encode(newprofilepw));
             pRepository.save(profile);
             return "redirect:/mypage/updatepw.do";
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/mypage/updatepw.do";
         }
     }
 
-
-
     // 프로필 암호 생성
     @PostMapping(value = "/createpw.do")
     public String coreatepwPOST(@RequestParam("profilepw") String profilepw,
-     HttpSession session){
-         String nickname = (String) session.getAttribute("nickname");
-         log.info("nickname", nickname);
+            HttpSession session) {
+        String nickname = (String) session.getAttribute("nickname");
+        log.info("nickname", nickname);
         // String memberId = "1";
         String memberId = (String) session.getAttribute("id");
         Profile profile1 = pRepository.findByNickname(nickname);
@@ -155,14 +153,14 @@ public class ProfileMypageController {
 
     // 프로필 암호 삭제
     @GetMapping(value = "/deletepw.do")
-        public String deletepwGET(HttpSession session){
+    public String deletepwGET(HttpSession session) {
         session.getAttribute("nickname");
         return "/JSH/deletepw";
-        }
+    }
 
     @PostMapping(value = "/deletepw.do")
     public String deletepwPOST(@RequestParam("profilepw1") String profilepw,
-    HttpSession session){
+            HttpSession session) {
         String nickname = (String) session.getAttribute("nickname");
         Profile profile = pRepository.findByNickname(nickname);
         profile.setProfilepw(null);
@@ -170,22 +168,20 @@ public class ProfileMypageController {
         return "redirect:/mypage/updatepw.do";
     }
 
-
     // 프로필 삭제
     @GetMapping(value = "/delete.do")
-    public String deleteGET(HttpSession session, Model model){
-    String nickname = (String) session.getAttribute("nickname");
-    Profile profile = pRepository.findByNickname(nickname);
-    if (profile.getProfilepw() != null){
-        model.addAttribute("profilepwchk", true);
+    public String deleteGET(HttpSession session, Model model) {
+        String nickname = (String) session.getAttribute("nickname");
+        Profile profile = pRepository.findByNickname(nickname);
+        if (profile.getProfilepw() != null) {
+            model.addAttribute("profilepwchk", true);
+        }
+        return "/JSH/profiledelete";
     }
-    return "/JSH/profiledelete";
-    }
-
 
     @PostMapping(value = "/delete.do")
-    public String deleteNoPwPOST(HttpSession session, @RequestParam("profilepw") String profilepw){
-        try{
+    public String deleteNoPwPOST(HttpSession session, @RequestParam("profilepw") String profilepw) {
+        try {
             String nickname = (String) session.getAttribute("nickname");
             Profile profile = pRepository.findByNickname(nickname);
             log.info("delete nickname => {}", nickname);
@@ -196,16 +192,15 @@ public class ProfileMypageController {
             // pRepository.save(profile);
             session.removeAttribute("nickname");
             return "redirect:/profile/profilelist.do";
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "/JSH/profiledelete";
         }
-    }   // 완료
-
+    } // 완료
 
     // 선호 키워드 변경
     @GetMapping(value = "/updatekeyword.do")
-    public String updatekeywordGET(HttpSession session, Model model){
+    public String updatekeywordGET(HttpSession session, Model model) {
         String nickname = (String) session.getAttribute("nickname");
         Profile profile = pRepository.findByNickname(nickname);
         model.addAttribute("keyword", profile.getKeyword());
@@ -214,22 +209,22 @@ public class ProfileMypageController {
 
     @PostMapping(value = "/updatekeyword.do")
     public String updatekeywordPOST(@RequestParam("keyword1") String keyword,
-                                    HttpSession session) {
+            HttpSession session) {
         String nickname = (String) session.getAttribute("nickname");
         String id = (String) session.getAttribute("id");
-    
+
         Profile profile = pRepository.findByNickname(nickname);
-    
+
         // 기존 키워드 값을 삭제하기 위해 null로 업데이트
         profile.setKeyword(null);
         log.info("keyword => {}", profile.getKeyword());
         // pRepository.save(profile);
-    
+
         // 새로운 키워드 값을 설정
         profile.setKeyword(keyword);
         log.info("keyword1 =>{}", profile.getKeyword());
         log.info("profile => {}", profile);
-                                        
+
         // Member 객체 생성 및 설정
         Member member = new Member();
         member.setId(id);
@@ -237,89 +232,85 @@ public class ProfileMypageController {
         log.info("keyword2 => {}", profile.getKeyword());
 
         pRepository.save(profile);
-    
+
         return "redirect:/mypage/updatekeyword.do";
     } // 완료
-
 
     // 프로필 이미지
 
     @GetMapping(value = "/profileimage")
-    public ResponseEntity<byte[]> image(@RequestParam(name = "profileno", defaultValue = "0") BigInteger profileno) throws IOException{
+    public ResponseEntity<byte[]> image(@RequestParam(name = "profileno", defaultValue = "0") BigInteger profileno)
+            throws IOException {
         Profileimg obj = piRepository.findByProfile_Profileno(profileno);
         HttpHeaders headers = new HttpHeaders(); // import org.springframework.http.HttpHeaders;
 
-        if( obj != null ){ // 이미지가 존재할 경우
-                headers.setContentType( MediaType.parseMediaType( obj.getFiletype() ) );
-                return new ResponseEntity<>( obj.getFiledata() , headers, HttpStatus.OK);
+        if (obj != null) { // 이미지가 존재할 경우
+            headers.setContentType(MediaType.parseMediaType(obj.getFiletype()));
+            return new ResponseEntity<>(obj.getFiledata(), headers, HttpStatus.OK);
         }
-        
+
         // 이미지가 없을 경우
         InputStream is = resourceLoader.getResource(DEFAULTIMAGE).getInputStream(); // exception 발생됨.
         headers.setContentType(MediaType.IMAGE_PNG);
-        return new ResponseEntity<>( is.readAllBytes(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
     }
 
     // 프로필 이미지 추가 및 수정
     @GetMapping(value = "/profileimg.do")
-    public String profileimgGET(HttpSession session, Model model){
-        model.addAttribute("profileno", session.getAttribute("profileno")) ;
+    public String profileimgGET(HttpSession session, Model model) {
+        model.addAttribute("profileno", session.getAttribute("profileno"));
         log.info("session => {}", session.getAttribute("profileno"));
         return "/JSH/profileimg";
     }
 
-
     @PostMapping(value = "/profileimg.do")
-    public String profileimgPOST(@RequestParam(name="tmpfile") MultipartFile file, HttpSession session){
+    public String profileimgPOST(@RequestParam(name = "tmpfile") MultipartFile file, HttpSession session) {
 
         BigInteger profileno = (BigInteger) session.getAttribute("profileno");
         Profileimg profileimg1 = piRepository.findByProfile_Profileno(profileno);
-        try{
-            if( file.isEmpty()){
+        try {
+            if (file.isEmpty()) {
                 return "redirect:/mypage/profileimg.do";
             }
-            if(profileimg1 != null){
-            profileimg1.setFilesize( BigInteger.valueOf(file.getSize()) );
-            profileimg1.setFiledata( file.getInputStream().readAllBytes() );
-            profileimg1.setFiletype( file.getContentType() );
-            profileimg1.setFilename( file.getOriginalFilename() );
+            if (profileimg1 != null) {
+                profileimg1.setFilesize(BigInteger.valueOf(file.getSize()));
+                profileimg1.setFiledata(file.getInputStream().readAllBytes());
+                profileimg1.setFiletype(file.getContentType());
+                profileimg1.setFilename(file.getOriginalFilename());
 
-            piRepository.save(profileimg1);
+                piRepository.save(profileimg1);
+                return "redirect:/mypage/profileimg.do";
+            }
+            Profileimg profileimg = new Profileimg();
+            Profile profile = new Profile();
+
+            profileimg.setFilesize(BigInteger.valueOf(file.getSize()));
+            profileimg.setFiledata(file.getInputStream().readAllBytes());
+            profileimg.setFiletype(file.getContentType());
+            profileimg.setFilename(file.getOriginalFilename());
+
+            profile.setProfileno(profileno);
+            profileimg.setProfile(profile);
+            piRepository.save(profileimg);
             return "redirect:/mypage/profileimg.do";
-            }
-                Profileimg profileimg = new Profileimg();
-                Profile profile = new Profile();
-
-                profileimg.setFilesize( BigInteger.valueOf(file.getSize()) );
-                profileimg.setFiledata( file.getInputStream().readAllBytes() );
-                profileimg.setFiletype( file.getContentType() );
-                profileimg.setFilename( file.getOriginalFilename() );
-                
-                profile.setProfileno(profileno);
-                profileimg.setProfile(profile);
-                piRepository.save(profileimg);
-                return "redirect:/mypage/profileimg.do";
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/mypage/profileimg.do";
         }
     } // 완료
 
-
-
     // 프로필 이미지 삭제
     @PostMapping(value = "/deleteprofileimg.do")
-    public String deleteprofileimgPOST(HttpSession session){
+    public String deleteprofileimgPOST(HttpSession session) {
         BigInteger profileno = (BigInteger) session.getAttribute("profileno");
         Profileimg profileimg = piRepository.findByProfile_Profileno(profileno);
-        try{
-            if(profileimg != null){
-            pService.deleteProfileimg(profileno);
-            return "redirect:/mypage/profileimg.do";
+        try {
+            if (profileimg != null) {
+                pService.deleteProfileimg(profileno);
+                return "redirect:/mypage/profileimg.do";
             }
             return "redirect:/mypage/profileimg.do";
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/mypage/profileimg.do";
         }

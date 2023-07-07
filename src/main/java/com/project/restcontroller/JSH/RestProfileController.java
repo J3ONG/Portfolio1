@@ -71,7 +71,7 @@ public class RestProfileController {
             if (nickname.isEmpty()) {
                 retMap.put("result", 2);
                 retMap.put("status", 409);
-                retMap.put("message", "닉네임 입력하셈");
+                retMap.put("message", "닉네임을 입력하세요.");
             } else {
                 if (profile == null) {
                     // 중복되지 않은 경우

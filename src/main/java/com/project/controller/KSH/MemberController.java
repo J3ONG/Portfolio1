@@ -44,12 +44,11 @@ public class MemberController {
     @GetMapping(value = "/main.do")
     public String mainGET(Model model) {
         List<String> imageUrls = Arrays.asList(
-        "/streampark/images/KSH/backgroundImg1.jpg",
-        "/streampark/images/KSH/backgroundImg2.jpg",
-        "/streampark/images/KSH/backgroundImg3.jpg",
-        "/streampark/images/KSH/backgroundImg4.jpg",
-        "/streampark/images/KSH/backgroundImg5.jpg"
-        );
+                "/streampark/images/KSH/backgroundImg1.jpg",
+                "/streampark/images/KSH/backgroundImg2.jpg",
+                "/streampark/images/KSH/backgroundImg3.jpg",
+                "/streampark/images/KSH/backgroundImg4.jpg",
+                "/streampark/images/KSH/backgroundImg5.jpg");
         model.addAttribute("imageUrls", imageUrls);
         return "/KSH/main";
     }
@@ -148,7 +147,8 @@ public class MemberController {
     // 정보 페이지
     @GetMapping(value = "/info.do")
     public String infoGET(Model model,
-            @RequestParam(name = "menu", defaultValue = "0", required = false) String menu,  @AuthenticationPrincipal User user) {
+            @RequestParam(name = "menu", defaultValue = "0", required = false) String menu,
+            @AuthenticationPrincipal User user) {
         String id = user.getUsername();
         log.info("{}", menu);
         try {

@@ -45,11 +45,11 @@ public class test1 {
             log.info(token);
 
             Member obj = jwtUtil2.checkJwt(token);
-            if(obj != null){
+            if (obj != null) {
                 model.addAttribute("member", obj);
                 model.addAttribute("token", token);
-            }else{  
-                model.addAttribute("token", "오류");     
+            } else {
+                model.addAttribute("token", "오류");
 
             }
 

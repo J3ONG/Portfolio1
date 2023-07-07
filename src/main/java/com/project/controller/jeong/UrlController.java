@@ -23,7 +23,7 @@ public class UrlController {
     final EmailService emailService;
     final RedisSampleService redisSampleService;
     final JwtUtil2 jwtUtil2;
-    BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();    
+    BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
     private final RedisUtil redisUtil;
 
     @GetMapping(value = "/home.do")
@@ -35,11 +35,11 @@ public class UrlController {
     @GetMapping(value = "/convert.do")
     public String convertGET(@RequestParam(value = "url") String urllink) {
         String url = redisUtil.getData(urllink);
-        if(url == null){
+        if (url == null) {
             log.info("url이상함");
-        }else{
-        }      
-        return "redirect:"+url;
+        } else {
+        }
+        return "redirect:" + url;
     }
 
 }

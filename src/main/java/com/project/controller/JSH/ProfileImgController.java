@@ -25,7 +25,6 @@ import com.project.repository.ProfileimgRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Controller
 @RequestMapping(value = "/profileimg")
 @Slf4j
@@ -37,33 +36,32 @@ public class ProfileImgController {
     private String defaultprofileimg;
     final ResourceLoader resourceLoader;
 
-    
-
     @GetMapping(value = "/profileimage")
-    public ResponseEntity<byte[]> image(@RequestParam(name = "profileno", defaultValue = "0") BigInteger profileno) throws IOException{
+    public ResponseEntity<byte[]> image(@RequestParam(name = "profileno", defaultValue = "0") BigInteger profileno)
+            throws IOException {
         Profileimg obj = piRepository.findByProfile_Profileno(profileno);
         HttpHeaders headers = new HttpHeaders(); // import org.springframework.http.HttpHeaders;
 
-        if( obj != null ){ // 이미지가 존재할 경우
-            headers.setContentType( MediaType.parseMediaType( obj.getFiletype() ) );
-            return new ResponseEntity<>( obj.getFiledata() , headers, HttpStatus.OK);
+        if (obj != null) { // 이미지가 존재할 경우
+            headers.setContentType(MediaType.parseMediaType(obj.getFiletype()));
+            return new ResponseEntity<>(obj.getFiledata(), headers, HttpStatus.OK);
         }
-        
+
         // 이미지가 없을 경우
         InputStream is = resourceLoader.getResource(defaultprofileimg).getInputStream(); // exception 발생됨.
         headers.setContentType(MediaType.IMAGE_PNG);
-        return new ResponseEntity<>( is.readAllBytes(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
     }
 
-    @GetMapping(value ="/insertimage.do")
-    public String insertImageGET(){
-    return "/JSH/profileimg";
+    @GetMapping(value = "/insertimage.do")
+    public String insertImageGET() {
+        return "/JSH/profileimg";
     }
 
     @PostMapping(value = "/insertimage.do")
     public String insertImagePOST(@ModelAttribute Profileimg profileimg,
-        @RequestParam(name="tmpfile") MultipartFile file, Model model){
-        try{
+            @RequestParam(name = "tmpfile") MultipartFile file, Model model) {
+        try {
             profileimg.setFilesize(BigInteger.valueOf(file.getSize()));
             profileimg.setFiledata(file.getInputStream().readAllBytes());
             profileimg.setFiletype(file.getContentType());
@@ -73,8 +71,7 @@ public class ProfileImgController {
             piRepository.save(profileimg);
             model.addAttribute("chk", profileimg.getFilename());
             return "/JSH/profileimg";
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "/JSH/profileimg";
         }

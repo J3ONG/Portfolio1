@@ -96,7 +96,7 @@ public class KDHVideoController {
             log.info("{}", videolist.toString());
             log.info("{}회", videolist.getEpisode().intValue());
             dhService.videolistInsert(role, videolist);
-         String   title = URLEncoder.encode(videolist.getTitle(), "UTF-8");// redirect 한글깨짐현상 해결     
+            String title = URLEncoder.encode(videolist.getTitle(), "UTF-8");// redirect 한글깨짐현상 해결
 
             return "redirect:/kdh/manageactor.do?title=" + title;
         } catch (Exception e) {
@@ -123,14 +123,15 @@ public class KDHVideoController {
 
     @PostMapping(value = "/videoupdate.do")
     public String videoupdatePOST(Model model, @ModelAttribute Videolistdto videolist,
-            @RequestParam(name = "title") String title, @RequestParam(name = "nowtitle") String nowtitle , @AuthenticationPrincipal User user) {
+            @RequestParam(name = "title") String title, @RequestParam(name = "nowtitle") String nowtitle,
+            @AuthenticationPrincipal User user) {
         try {
             String id = user.getUsername();
             String role = memberRepository.findById(id).get().getRole();
             Memberdto member = new Memberdto(); // 멤버를 받기위해 사용 통합후 삭제 및 수정
             member.setRole(role);
             dhService.videolistUpdate(member, videolist, nowtitle);
-            title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결     
+            title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
 
             return "redirect:/kdh/selectone.do?title=" + title;
             // return "redirect:/kdh/home.do";
@@ -163,9 +164,10 @@ public class KDHVideoController {
         BigInteger videocode = dhService.selectnofromtitle(title).getVideocode();
         VideolistView video = dhService.selectvideoOne(videocode);
         List<Videolist> list1 = videolistRepository.findByTitleOrderByEpisodeAsc(title);
-        BigInteger profileno = (BigInteger)httpSession.getAttribute("profileno");
+        BigInteger profileno = (BigInteger) httpSession.getAttribute("profileno");
         Long imgno = dhService.selectvideoimgOne(videocode.longValue());
-        List<Review> reviewlist = reviewRepository.findByVideolist_VideocodeIgnoreCaseContainingOrderByViewdateDesc(videocode);
+        List<Review> reviewlist = reviewRepository
+                .findByVideolist_VideocodeIgnoreCaseContainingOrderByViewdateDesc(videocode);
         model.addAttribute("reviewlist", reviewlist);
         model.addAttribute("imgno", imgno);
         model.addAttribute("video", video);
@@ -192,7 +194,7 @@ public class KDHVideoController {
             profile1.setProfileno(profileno);
             videolist.setVideocode(videocode);
             watchlist.setProfile(profile);
-            watchlist.setVideolist(videolist);           
+            watchlist.setVideolist(videolist);
             paymentlist.setProfile(profile);
             paymentlist.setVideolist(videolist);
 
@@ -200,31 +202,33 @@ public class KDHVideoController {
             memberDto.setBirth(member.getBirth());
             int ret = dhService.videolistCHKage(videocode.longValue(), memberDto);
 
-            Watchlist buyedWatchlist = watchlistRepository.findByProfile_profilenoAndVideolist_videocode(profileno, videocode);
+            Watchlist buyedWatchlist = watchlistRepository.findByProfile_profilenoAndVideolist_videocode(profileno,
+                    videocode);
 
-            if(buyedWatchlist != null){
+            if (buyedWatchlist != null) {
                 System.out.println("결제한 작품");
-                title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결     
+                title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
                 return "redirect:/kdh/videoplay.do?title=" + title + "&episode=" + episode;
             }
-            
+
             if (ret == 1) {
                 if (paychk != null) {
-                    //멤버쉽 결제내역이 있을 때
+                    // 멤버쉽 결제내역이 있을 때
                     Date nowDate = new Date();
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(paychk.getRegdate());// 등록된 날짜
                     cal.add(Calendar.DATE, 30); // 등록된 날짜 + 30일(cal)
                     if (nowDate.compareTo(cal.getTime()) == -1) {
-                        //나이 체크 완 + 멤버십 유효
-                        title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결                        
+                        // 나이 체크 완 + 멤버십 유효
+                        title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
                         watchlistRepository.save(watchlist);
                         return "redirect:/kdh/videoplay.do?title=" + title + "&episode=" + episode;
-                    }else{
-                        //멤버쉽 유효 X
-                        if( member.getToken().longValue() > dhService.selectnofromtitle(title).getPrice().longValue()){
-                            //보유토큰 > 가격                            
-                            long token = member.getToken().longValue() - dhService.selectnofromtitle(title).getPrice().longValue();
+                    } else {
+                        // 멤버쉽 유효 X
+                        if (member.getToken().longValue() > dhService.selectnofromtitle(title).getPrice().longValue()) {
+                            // 보유토큰 > 가격
+                            long token = member.getToken().longValue()
+                                    - dhService.selectnofromtitle(title).getPrice().longValue();
                             member.setToken(BigInteger.valueOf(token));
                             httpSession.setAttribute("token", member.getToken());
                             memberRepository.save(member);
@@ -233,23 +237,23 @@ public class KDHVideoController {
                             paymentlistRepository.save(paymentlist);
                             return "redirect:/kdh/videoplay.do?title=" + title + "&episode=" + episode;
 
-                        }else{
+                        } else {
                             System.out.println("토큰 없음");
                             title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
-                            return "redirect:/kdh/notoken.do?title=" + title + "&episode=" + episode;                        
+                            return "redirect:/kdh/notoken.do?title=" + title + "&episode=" + episode;
                         }
 
-                       
-                        //나이체크 멤버십 만료
+                        // 나이체크 멤버십 만료
                     }
                 } else {
-                    //멤버쉽 결제 내역이 없을 때
-                    System.out.println("토큰수"+member.getToken().longValue());  
-                    System.out.println("videocode"+dhService.selectnofromtitle(title).getVideocode());  
-                    System.out.println("가격"+dhService.selectnofromtitle(title).getPrice().longValue());     
-                    if( member.getToken().longValue() > dhService.selectnofromtitle(title).getPrice().longValue()){
-                        //보유토큰 > 가격
-                        long token = member.getToken().longValue() - dhService.selectnofromtitle(title).getPrice().longValue();
+                    // 멤버쉽 결제 내역이 없을 때
+                    System.out.println("토큰수" + member.getToken().longValue());
+                    System.out.println("videocode" + dhService.selectnofromtitle(title).getVideocode());
+                    System.out.println("가격" + dhService.selectnofromtitle(title).getPrice().longValue());
+                    if (member.getToken().longValue() > dhService.selectnofromtitle(title).getPrice().longValue()) {
+                        // 보유토큰 > 가격
+                        long token = member.getToken().longValue()
+                                - dhService.selectnofromtitle(title).getPrice().longValue();
                         member.setToken(BigInteger.valueOf(token));
                         httpSession.setAttribute("token", member.getToken());
                         memberRepository.save(member);
@@ -258,19 +262,19 @@ public class KDHVideoController {
                         paymentlistRepository.save(paymentlist);
                         return "redirect:/kdh/videoplay.do?title=" + title + "&episode=" + episode;
 
-                    }else{
+                    } else {
                         System.out.println("나이체크 멤버십 없음");
                         title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
                         return "redirect:/kdh/notoken.do?title=" + title + "&episode=" + episode;
-                        //나이체크 멤버십 없음
+                        // 나이체크 멤버십 없음
                     }
-                    
+
                 }
             } else {
                 System.out.println("나이체크");
                 title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
                 return "redirect:/kdh/prohibit.do?title=" + title + "&episode=" + episode;
-                //나이체크
+                // 나이체크
             }
             // return "redirect:/kdh/home.do";
         } catch (Exception e) {
@@ -278,10 +282,12 @@ public class KDHVideoController {
             return "redirect:/kdh/error.do";
         }
     }
+
     @GetMapping(value = "/notoken.do")
     public String notokenGET() {
         return "/KDH/notoken";
     }
+
     @GetMapping(value = "/prohibit.do")
     public String prohibitGET() {
         return "/KDH/prohibit";
@@ -351,7 +357,7 @@ public class KDHVideoController {
                     }
                 }
             }
-            title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결    
+            title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
             return "redirect:/kdh/manageactor.do?title=" + title;
         } catch (Exception e) {
             e.printStackTrace();
@@ -371,7 +377,7 @@ public class KDHVideoController {
                 actors.setActors_No(Long.parseLong(chk[i]));
                 dhService.removeactorinvideo(videolist, actors);
             }
-            title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결    
+            title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
             return "redirect:/kdh/manageactor.do?title=" + title;
         } catch (Exception e) {
             e.printStackTrace();
@@ -385,7 +391,7 @@ public class KDHVideoController {
         try {
             int ret = dhService.addactorlist(actorname);
             if (ret == 1) {
-            title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결    
+                title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
                 return "redirect:/kdh/manageactor.do?title=" + title;
             } else {
                 return "redirect:/kdh/error.do";
@@ -443,12 +449,12 @@ public class KDHVideoController {
             if (img != null) {
                 dhService.deletevideoimg(img);
                 dhService.insertvideoimg(file, vl);
-                title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결     
+                title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
 
                 return "redirect:/kdh/videoupdate.do?title=" + title;
             } else {
                 dhService.insertvideoimg(file, vl);
-                title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결     
+                title = URLEncoder.encode(title, "UTF-8");// redirect 한글깨짐현상 해결
 
                 return "redirect:/kdh/videoupdate.do?title=" + title;
             }
@@ -547,9 +553,9 @@ public class KDHVideoController {
             interestlist.setProfile(profile);
             interestlist.setVideolist(videolist);
             Interestlist one = interestRepository.findByProfile_profilenoAndVideolist_videocode(profileno, videocode);
-            if(one == null){
-                interestRepository.save(interestlist);                
-            }else{
+            if (one == null) {
+                interestRepository.save(interestlist);
+            } else {
             }
             return "redirect:/kdh/home.do";
         } catch (Exception e) {

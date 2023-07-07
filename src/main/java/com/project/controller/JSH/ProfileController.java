@@ -84,8 +84,6 @@ public class ProfileController {
     // 현재 멤버쉽은 GRADE 값
     @GetMapping(value = "/profilelist.do")
     public String profilelistGET(@AuthenticationPrincipal User user, Model model, HttpSession session) {
-        // session.removeAttribute("profileno");
-        // session.removeAttribute("nickname");
         try {
             String id = user.getUsername();
             log.info("list id => {}", id);
@@ -138,17 +136,17 @@ public class ProfileController {
             if (!pcRepository.findByMember_id(id).isEmpty()) { // Paychk의 정보가 있으면
 
                 List<Paychk> list1 = pMapper.selectPaychk(id);
-                if(!list1.isEmpty()){
+                if (!list1.isEmpty()) {
                     Paychk latestPaychk = list1.get(0);
-                    
+
                     // 만료 날짜와 현재 시간 비교
                     calendar.setTime(latestPaychk.getRegdate());
                     calendar.add(Calendar.MONTH, 1);
                     Date oneMonthAfter = calendar.getTime();
-                    
+
                     log.info("oneMonthAfter => {}", oneMonthAfter);
                     log.info("currentDate => {}", currentDate);
-                    
+
                     // 날짜 비교
                     if (currentDate.after(oneMonthAfter)) { // 만료되었다면
                         model.addAttribute("chk", "0");
@@ -161,9 +159,6 @@ public class ProfileController {
             } else {
                 model.addAttribute("chk", "0");
             }
-            // model.addAttribute("defaultimage",defaultprofileimg );
-            // session.removeAttribute("nickname");
-            // session.removeAttribute("profileno");
             return "/JSH/profilelist";
         } catch (Exception e) {
             e.printStackTrace();
@@ -172,8 +167,8 @@ public class ProfileController {
     }
 
     // 암호 초기화
-    @PostMapping(value ="/clearpw.do")
-    public String clearpwPOST(@RequestParam("clearpw_nickname") String nickname){
+    @PostMapping(value = "/clearpw.do")
+    public String clearpwPOST(@RequestParam("clearpw_nickname") String nickname) {
         log.info("nickname => {}", nickname);
         Profile profile = pRepository.findByNickname(nickname);
         log.info("before clearpw => {}", profile.getProfilepw());
@@ -181,10 +176,10 @@ public class ProfileController {
         pRepository.save(profile);
         log.info("mid clearpw => {}", profile.getProfilepw());
         profile.setProfilepw(bcpe.encode("1234"));
-        pRepository.save(profile);      
+        pRepository.save(profile);
         log.info("after clearpw => {}", profile.getProfilepw());
 
-    return "redirect:/profile/profilelist.do";
+        return "redirect:/profile/profilelist.do";
     }
 
     // 프로필 생성
@@ -222,7 +217,7 @@ public class ProfileController {
         String id = user.getUsername();
         String role = mRepository.findById(id).get().getRole();
         Profile profile1 = pRepository.findByNickname(nickname);
-        
+
         if (profile1.getProfilepw() == null) {
             // httpSession.setAttribute("role", role);
             session.setAttribute("token", mRepository.findById(user.getUsername()).get().getToken());
@@ -240,15 +235,15 @@ public class ProfileController {
     public String loginPOST(@RequestParam("nickname1") String nickname,
             @RequestParam(value = "profilepw", required = false) String profilepw, Model model, HttpSession session,
             @AuthenticationPrincipal User user) {
-                String id = user.getUsername();
-                String role = mRepository.findById(id).get().getRole();
-                Profile profile = pRepository.findByNickname(nickname);
-                Paychk paychk = jService.findPaychkMemberidAndTypeTopByRegdate(profile.getMember().getId(), "M");
-                // log.info("{}",paychk.getFee().getGrade());
-                // log.info("{}",paychk1.toString());
-                
+        String id = user.getUsername();
+        String role = mRepository.findById(id).get().getRole();
+        Profile profile = pRepository.findByNickname(nickname);
+        Paychk paychk = jService.findPaychkMemberidAndTypeTopByRegdate(profile.getMember().getId(), "M");
+        // log.info("{}",paychk.getFee().getGrade());
+        // log.info("{}",paychk1.toString());
+
         try {
-            if(paychk != null){
+            if (paychk != null) {
                 session.setAttribute("grade", paychk.getFee().getGrade());
             }
             session.setAttribute("token", mRepository.findById(user.getUsername()).get().getToken());
@@ -278,6 +273,5 @@ public class ProfileController {
             return "redirect:/profile/login.do"; // 로그인되지 않은 경우 로그인 폼으로 리다이렉트
         }
     }
-
 
 }

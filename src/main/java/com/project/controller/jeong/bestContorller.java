@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.project.dto.Videolistdto;
 import com.project.dto.Jeong.BestList;
 import com.project.entity.Profile;
 import com.project.entity.Videolist;
@@ -17,10 +16,8 @@ import com.project.repository.Projections.MemberProjection;
 import com.project.service.JeongService.JeongService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@Slf4j
 @RequiredArgsConstructor
 @RequestMapping(value = "/best")
 public class bestContorller {
