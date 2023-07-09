@@ -36,7 +36,7 @@
 </div> 
 <h4>백엔드</h4>
 <div align="left">
- 	<img src="https://img.shields.io/badge/JAVA-007396?style=flat&logo=Java&logoColor=white"/>
+ 	<img src="https://img.shields.io/badge/JAVA-007396?style=flat&logo=java&logoColor=white"/>
   <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=springboot&logoColor=white" />
   <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat&logo=springsecurity&logoColor=white" />
   <img src="https://img.shields.io/badge/JPA-59666C?style=flat&logo=hibernate&logoColor=white" />
@@ -56,7 +56,7 @@
 <div align="left">
   <img src="https://img.shields.io/badge/Linux-FCC624?style=flat&logo=linux&logoColor=white" />
 	<img src="https://img.shields.io/badge/AWS-232F3E?style=flat&logo=amazonaws&logoColor=white" />
-	<img src="https://img.shields.io/badge/GCP-FFFFFF?style=flat?logo=Google&logoColor=white" />
+	<img src="https://img.shields.io/badge/GCP-4285F4?style=flat?logo=googlecloud&logoColor=white" />
 </div>
 <h4>협업도구</h4>
 <div align="left">
