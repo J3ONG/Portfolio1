@@ -123,8 +123,8 @@
  <br/>
 
 2. 담당 기능 보완
- - 작품을 등록할때 작품 정보의 글자수의 유효성 검사 부족
- - http://13.125.171.81:8080/streampark/member/main.do (AWS)
+ - 작품을 등록할때 작품 정보의 글자수의 유효성 검사 부족 - 
  - 관리자 아이디(qwerty)_ 비밀번호 동일합니다
  - 고객 아이디 비밀번호(555555, 555555)
- - http://34.22.85.174:8080/streampark/member/main.do (GCP)
+ - http://13.125.171.81:8080/streampark/member/main.do (AWS/팀용)
+ - http://34.22.85.174:8080/streampark/member/main.do (GCP/개인용)
