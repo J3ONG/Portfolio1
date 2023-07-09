@@ -74,14 +74,14 @@
 
 <img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/%EC%9D%B4%EB%A9%94%EC%9D%BC%EC%BD%94%EB%93%9C%EC%A0%84%EC%86%A1.png">
 
-<img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/%EC%9D%B4%EB%A9%94%EC%9D%BC.png">
+<img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/%EC%9D%B4%EB%A9%94%EC%9D%BC1.png">
 
-<img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/%EC%9D%B4%EB%A9%94%EC%9D%BC%20%EC%9D%B8%EC%A6%9D%EC%99%84%EB%A3%8C.png">
+<img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/%EC%9D%B4%EB%A9%94%EC%9D%BC%20%EC%9D%B8%EC%A6%9D%EC%99%84%EB%A3%8C1.png">
 
 <img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/%EC%95%84%EC%9D%B4%EB%94%94%EC%B0%BE%EA%B8%B0.png">
 
 
-- Redis DB에 8자리 코드 저장후 이메일 전송
+- Redis DB에 5분간 8자리 코드 저장후 이메일 전송
 
 <br/>
 
