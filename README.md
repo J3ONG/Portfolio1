@@ -5,6 +5,7 @@
 - :wrench: <a href="#tech">기술스택</a>
 - :family: <a href="#team">팀원소개</a>
 - :bookmark_tabs: <a href="#function">기능구현</a>
+  - 아이디 찾기/ 암호 변경시 이메일 인증
   - 관리자 로그인시 버튼 활성화 및 작품 및 리뷰관리
   - 나이에따른 관람가 제한
   - 1:1 문의게시판
@@ -69,44 +70,52 @@
 # :family: <a name="team">팀원소개</a>
 <img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/1.png"> <br/><br/>
 # :bookmark_tabs: <a name="function">기능구현</a>
-**1. 관리자 로그인시 버튼 활성화 및 작품 및 리뷰관리**
+**1.아이디 찾기/ 암호 변경시 이메일 인증**
+
+
+
+- Redis DB에 8자리 코드 저장후 이메일 전송
+
+<br/>
+
+**2. 관리자 로그인시 버튼 활성화 및 작품 및 리뷰관리**
 <img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/%EC%9E%91%ED%92%88_%EA%B4%80%EB%A6%AC%EC%9E%90%ED%99%94%EB%A9%B4.png">
 <img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/deactivatedbutton.png"> <br/><br/>
 - 세션에 저장된 아이디의 권한을 입력받아 권한이 관리자 일때 버튼이 나오도록 활성화 및 수정 가능 
 <br/>
 
-**2. 나이에따른 관람가 제한**
+**3. 나이에따른 관람가 제한**
 <img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/agechk.gif"> <br/><br/>
 - RESTful 웹 서비스를 구축하여 RestController로 주문상세목록 객체를 JSON으로 데이터 전송
 - 버튼 클릭시 Modal에서 주문 상세 목록 출력
 <br/>
 
-**3. 1:1 문의게시판**
+**4. 1:1 문의게시판**
 <img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/%EA%B2%8C%EC%8B%9C%ED%8C%90.png"> <br/><br/>
 
 - JavaScript를 이용하여 일주일 내의 작성 날짜를 변경
 - 문의 답변 완료시 답변 완료로 표시
 <br/>
 
-**4. 결제**
+**5. 결제**
 <img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/pay.png"> <br/><br/>
 - 이니시스 결제 api 연동하여 토큰 이나 멤버쉽으로 결제가능
 - 결제 정보에 따라 프로필 생성가능 수를 늘리거나 영상시청시 토큰이 차감되거나 멤버쉽으로 볼수 있게 함 
 <br/>
 
-**5. 영상조회**
+**6. 영상조회**
 <img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/filter.gif"> <br/><br/>
 - 각각의 키워드로 영상을 검색하거나 영상 분류에 맞는 영상물 조회 및 분류 안에서 세부장르로 검색할 수 있게함
 
 <br/>
 
-**6. 고객 통계에 따른 영상 추천**
+**7. 고객 통계에 따른 영상 추천**
 <img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/most.png"> <br/><br/>
 - 시청기록 테이블에서 가장 많이 보거나 리뷰가 많이 쓰여진 영상물 조회 후 상위 5개 항목 출력
 - 슬라이드 형식으로 구성
 <br/>
 
-**7. 프로필에 따른 리뷰,시청목록,리뷰에 따른 신고 및 좋아요**
+**8. 프로필에 따른 리뷰,시청목록,리뷰에 따른 신고 및 좋아요**
 <img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/review.gif"> <br/><br/>
 - 프로필에따라 시청기록있는 영상에 한해 리뷰가 가능함, 좋아요,신고 기능 
 <br/>
