@@ -81,7 +81,6 @@
 <br/>
 
 **3. 1:1 문의게시판**
-# <img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/board1.png"> <br/><br/>
 <img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/%EA%B2%8C%EC%8B%9C%ED%8C%90.png"> <br/><br/>
 
 - JavaScript를 이용하여 일주일 내의 작성 날짜를 변경
