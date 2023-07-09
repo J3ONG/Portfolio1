@@ -69,7 +69,7 @@
 <img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/1.png"> <br/><br/>
 # :bookmark_tabs: <a name="function">기능구현</a>
 **1. 관리자 로그인시 버튼 활성화 및 작품 및 리뷰관리**
-<img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/activebutton.png">
+<img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/%EC%9E%91%ED%92%88_%EA%B4%80%EB%A6%AC%EC%9E%90%ED%99%94%EB%A9%B4.png">
 <img src="https://raw.githubusercontent.com/J3ONG/Portfolio1/main/src/main/resources/static/images/portfolioimage/deactivatedbutton.png"> <br/><br/>
 - 세션에 저장된 아이디의 권한을 입력받아 권한이 관리자 일때 버튼이 나오도록 활성화 및 수정 가능 
 <br/>
