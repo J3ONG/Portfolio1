@@ -60,7 +60,7 @@
 <div align="left">
   <img src="https://img.shields.io/badge/Linux-FCC624?style=flat&logo=linux&logoColor=white" />
 	<img src="https://img.shields.io/badge/AWS-232F3E?style=flat&logo=amazonaws&logoColor=white" />
-	<img src="https://img.shields.io/badge/GCP-4285F4?style=flat?&logo=googlecloud&logoColor=white" />
+	<img src="https://img.shields.io/badge/Google Cloud Platform-4285F4?style=flat?&logo=googlecloud&logoColor=white" />
 	
 </div>
 <h4>협업도구</h4>
