@@ -30,7 +30,7 @@
 >
 >**제작 기간**: 2023.05.15 ~ 2023.06.09
 >
->**담당 기능**: 결제 기능 API, 이메일 API, reCAPTCHA API, AWS 배포 등
+>**담당 기능**: 결제 기능 API, 결제 후 토큰/정기결제 방식에 따라 컨텐츠 시청, 이메일 API, reCAPTCHA API, AWS 배포 등
 # :wrench: <a name="tech">기술스택</a>
 <h4>데이터베이스</h4>
 <div align="left">
