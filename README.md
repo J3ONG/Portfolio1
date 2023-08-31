@@ -60,7 +60,7 @@
 <div align="left">
   <img src="https://img.shields.io/badge/Linux-FCC624?style=flat&logo=linux&logoColor=white" />
 	<img src="https://img.shields.io/badge/AWS-232F3E?style=flat&logo=amazonaws&logoColor=white" />
-	<img src="https://img.shields.io/badge/Google Cloud Platform-4285F4?style=flat?&logo=googlecloud&logoColor=white" />
+	
 	
 </div>
 <h4>협업도구</h4>
@@ -147,8 +147,10 @@
  - 관리자 아이디(qwerty)_ 비밀번호 동일합니다
  - 고객 아이디 비밀번호(555555, 555555)
  - http://13.125.171.81:8080/streampark/member/main.do (AWS/팀용)
- - http://34.22.85.174:8080/streampark (GCP/개인용/개선중)
+ 
 <!-- 
+- http://34.22.85.174:8080/streampark (GCP/개인용/개선중)
+<img src="https://img.shields.io/badge/Google Cloud Platform-4285F4?style=flat?&logo=googlecloud&logoColor=white" />
 
   개선 리스트
   1. urlFilter 추가 http://34.22.85.174:8080/streampark/ 까지 입력해도 메인으로 이동(완)
